@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte d'Identité Fictive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            perspective: 1000px;
+        }
+        .card-wrapper {
+            width: 350px;
+            height: 220px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+        }
+        .card-wrapper.flipped {
+            transform: rotateY(180deg);
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 15px;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1976d2;
+        }
+        .flag {
+            display: flex;
+            width: 40px;
+            height: 30px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        .flag div {
+            flex: 1;
+        }
+        .blue { background: #002395; }
+        .white { background: white; }
+        .red { background: #ED2939; }
+        .title {
+            font-size: 11px;
+            font-weight: bold;
+            color: #1565c0;
+            text-align: center;
+            flex: 1;
+        }
+        .content {
+            display: flex;
+            gap: 12px;
+        }
+        .photo {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #90caf9 0%, #64b5f6 100%);
+            border: 2px solid #1976d2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #0d47a1;
+            text-align: center;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .info {
+            flex: 1;
+            font-size: 9px;
+        }
+        .field {
+            margin-bottom: 6px;
+        }
+        .label {
+            color: #555;
+            font-size: 8px;
+            text-transform: uppercase;
+        }
+        .value {
+            font-weight: bold;
+            color: #000;
+            font-size: 10px;
+        }
+        .signature-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #90a4ae;
+        }
+        .signature {
+            font-style: italic;
+            color: #1565c0;
+            font-size: 14px;
+            margin-top: 3px;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: rgba(25, 118, 210, 0.1);
+            font-weight: bold;
+            transform: rotate(-15deg);
+        }
+        .back-content {
+            font-size: 8px;
+            line-height: 1.4;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #f57c00;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-size: 9px;
+        }
+        .barcode {
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px);
+            margin: 10px 0;
+            border: 1px solid #000;
+        }
+        .id-number {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+        .btn {
+            position: fixed;
+            bottom: 30px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .prop-notice {
+            position: fixed;
+            top: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #d32f2f;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="prop-notice">
+        ⚠️ DOCUMENT FICTIF - ACCESSOIRE DE THÉÂTRE ⚠️
+    </div>
+    
+    <div class="container">
+        <div class="card-wrapper" id="cardWrapper">
+            <!-- RECTO -->
+            <div class="card">
+                <div class="header">
+                    <div class="flag">
+                        <div class="blue"></div>
+                        <div class="white"></div>
+                        <div class="red"></div>
+                    </div>
+                    <div class="title">
+                        RÉPUBLIQUE FRANÇAISE<br>
+                        CARTE NATIONALE D'IDENTITÉ
+                    </div>
+                </div>
+                
+                <div class="content">
+                    <div class="photo">
+                        PHOTO<br>PERSONNAGE
+                    </div>
+                    
+                    <div class="info">
+                        <div class="field">
+                            <div class="label">Nom</div>
+                            <div class="value">JANVRIN</div>
+                        </div>
+                        <div class="field">
+                            <div class="label">Prénom(s)</div>
+                            <div class="value">Mathis</div>
+                        </div>
+                        <div class="field">
+                            <div class="label">Né(e) le</div>
+                            <div class="value">11/09/2010</div>
+                        </div>
+                        <div class="field">
+                            <div class="label">à</div>
+                            <div class="value">PARIS (75)</div>
+                        </div>
+                        <div class="field">
+                            <div class="label">Sexe</div>
+                            <div class="value">M</div>
+                        </div>
+                        <div class="field">
+                            <div class="label">Taille</div>
+                            <div class="value">1,75 m</div>
+                        </div>
+                        
+                        <div class="signature-section">
+                            <div class="label">Signature du titulaire</div>
+                            <div class="signature">M. Janvrin</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="watermark">FICTIF</div>
+            </div>
+            
+            <!-- VERSO -->
+            <div class="card card-back">
+                <div class="back-content">
+                    <div class="section-title">DOCUMENT FICTIF - ACCESSOIRE DE THÉÂTRE</div>
+                    
+                    <div class="barcode"></div>
+                    <div class="id-number">FR-THEATRE-2026-001234</div>
+                    
+                    <div class="section-title">INFORMATIONS ADMINISTRATIVES</div>
+                    <p><strong>N° de carte :</strong> FR0123456789</p>
+                    <p><strong>Date de délivrance :</strong> 15/01/2026</p>
+                    <p><strong>Date d'expiration :</strong> 15/01/2036</p>
+                    <p><strong>Autorité :</strong> Préfecture de Paris</p>
+                    
+                    <div class="section-title">ADRESSE</div>
+                    <p>123 Avenue de la Scène<br>75001 PARIS</p>
+                    
+                    <div style="margin-top: 15px; padding: 8px; background: rgba(255,255,255,0.5); border-radius: 5px; text-align: center; font-weight: bold; color: #d32f2f;">
+                        ⚠️ Ce document est un accessoire fictif créé exclusivement pour une représentation théâtrale. Il n'a aucune valeur légale.
+                    </div>
+                </div>
+                
+                <div class="watermark">PROP</div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn" onclick="flipCard()">↻ Retourner la carte</button>
+    
+    <script>
+        function flipCard() {
+            document.getElementById('cardWrapper').classList.toggle('flipped');
+        }
+        
+        // Permettre de retourner en cliquant sur la carte aussi
+        document.getElementById('cardWrapper').addEventListener('click', flipCard);
+    </script>
+</body>
+</html>
